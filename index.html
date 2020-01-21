@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Project Dashboard</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="minimum-scale=1, initial-scale=1, width=device-width" />
+    <script src="https://unpkg.com/react@16.12.0/umd/react.development.js" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/react-dom@16.12.0/umd/react-dom.development.js" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/styled-components@4.3.2/dist/styled-components.min.js" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/@material-ui/core@4.8.3/umd/material-ui.development.js" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/lodash@1.3.0/dist/lodash.min.js" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/js-datepicker" crossorigin="anonymous"></script>
+    <script src="http://cdn.date-fns.org/v2.0.0-alpha0/date_fns.min.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6.26.0/babel.min.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+    <link rel="stylesheet" href="https://unpkg.com/js-datepicker/dist/datepicker.min.css" crossorigin="anonymous">
+    <style>
+      body {
+        font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+      }
+    </style>
+  </head>
+  <body style="margin: 0;">
+    <main id="dashboard"></main>
+    <script type="text/babel">
+      const json = '[{"title":"Tagtune","division":"Accounting","project_owner":"Kevin Snyder","budget":20614.14,"status":"archived","created":"09/14/2019","modified":"10/02/2019"},{"title":"Oyoyo","division":"Administration","project_owner":"Eugene Brown","budget":22106.44,"status":"new","created":"07/17/2019","modified":null},{"title":"Lajo","division":"Marketing","project_owner":"Killgore Trout","budget":15481.27,"status":"working","created":"07/19/2019","modified":"09/17/2019"},{"title":"Blognation","division":"Administration","project_owner":"Richard Henry","budget":24017.98,"status":"working","created":"08/03/2019","modified":"09/17/2019"},{"title":"Vinte","division":"Administration","project_owner":"Michelle Webb","budget":12935.84,"status":"working","created":"08/05/2019","modified":"09/15/2019"},{"title":"Aibox","division":"Administration","project_owner":"Killgore Trout","budget":15991.78,"status":"working","created":"09/03/2019","modified":"10/02/2019"},{"title":"Buzzdog","division":"Administration","project_owner":"Michelle Webb","budget":22610.09,"status":"archived","created":"07/26/2019","modified":"10/01/2019"},{"title":"Plambee","division":"Sales","project_owner":"Michelle Webb","budget":14229.02,"status":"archived","created":"09/14/2019","modified":"10/01/2019"},{"title":"Photobug","division":"Administration","project_owner":"James Holden","budget":10959.29,"status":"working","created":"09/03/2019","modified":"09/18/2019"},{"title":"Quimm","division":"Marketing","project_owner":"James Holden","budget":14139.38,"status":"delivered","created":"08/02/2019","modified":"09/26/2019"},{"title":"Innojam","division":"Sales","project_owner":"Eugene Brown","budget":24318.05,"status":"working","created":"09/13/2019","modified":"09/20/2019"},{"title":"Jaxworks","division":"Production","project_owner":"Michelle Webb","budget":15054.27,"status":"new","created":"08/12/2019","modified":null},{"title":"Skyble","division":"Accounting","project_owner":"Richard Henry","budget":13810.1,"status":"delivered","created":"07/12/2019","modified":"09/21/2019"},{"title":"Photobean","division":"Marketing","project_owner":"Michelle Webb","budget":12637.95,"status":"working","created":"08/24/2019","modified":"09/15/2019"},{"title":"Topicware","division":"Administration","project_owner":"Eugene Brown","budget":9667.52,"status":"working","created":"08/01/2019","modified":"09/29/2019"},{"title":"Buzzster","division":"Production","project_owner":"Nicole Smith","budget":14657.54,"status":"working","created":"08/09/2019","modified":"09/18/2019"},{"title":"Twinte","division":"Administration","project_owner":"Kevin Snyder","budget":17729.37,"status":"delivered","created":"09/09/2019","modified":"09/18/2019"},{"title":"Blognation","division":"Production","project_owner":"Eugene Brown","budget":19540.82,"status":"archived","created":"07/21/2019","modified":"09/22/2019"},{"title":"Flashdog","division":"Production","project_owner":"Michelle Webb","budget":24870.61,"status":"working","created":"07/05/2019","modified":"10/02/2019"},{"title":"Yakijo","division":"Accounting","project_owner":"Killgore Trout","budget":23533.54,"status":"working","created":"08/12/2019","modified":"10/01/2019"},{"title":"Quatz","division":"Sales","project_owner":"Richard Henry","budget":23639.65,"status":"archived","created":"07/19/2019","modified":"09/19/2019"},{"title":"Dabjam","division":"Marketing","project_owner":"Kevin Snyder","budget":14356.55,"status":"new","created":"08/22/2019","modified":null},{"title":"Meetz","division":"Sales","project_owner":"Kevin Snyder","budget":13882.22,"status":"delivered","created":"08/26/2019","modified":"10/01/2019"},{"title":"Flipopia","division":"Marketing","project_owner":"Eugene Brown","budget":10306.87,"status":"delivered","created":"08/11/2019","modified":"09/17/2019"},{"title":"Quaxo","division":"Administration","project_owner":"Nicole Smith","budget":13945.69,"status":"archived","created":"07/13/2019","modified":"09/21/2019"},{"title":"Trunyx","division":"Production","project_owner":"Nicole Smith","budget":23136.21,"status":"delivered","created":"09/03/2019","modified":"09/19/2019"},{"title":"Dabtype","division":"Marketing","project_owner":"Richard Henry","budget":22000.98,"status":"archived","created":"08/26/2019","modified":"09/28/2019"},{"title":"Meetz","division":"Marketing","project_owner":"Eugene Brown","budget":17620.23,"status":"new","created":"09/08/2019","modified":null},{"title":"Kimia","division":"Sales","project_owner":"Richard Henry","budget":12061.73,"status":"archived","created":"08/31/2019","modified":"09/29/2019"},{"title":"Dazzlesphere","division":"Accounting","project_owner":"Eugene Brown","budget":21443.97,"status":"archived","created":"07/20/2019","modified":"10/01/2019"}]'
+      const {
+        TableContainer,
+        Table,
+        TableHead,
+        TableBody,
+        TableRow,
+        TableCell,
+        Box,
+        Paper: MuiPaper,
+        Button,
+        Icon
+      } = MaterialUI
+      const { useState, useMemo, useEffect } = React
+      const currency = new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: 'USD'
+      })
+      const Flex = styled.div`
+        display: flex;
+        flex-direction: ${props => props.direction || 'column'};
+      `
+      const Paper = styled(MuiPaper)`
+        padding: 20px;
+        margin: 20px;
+      `
+      const FilterInput = styled.input.attrs(({ name }) => ({
+        name,
+        type: 'text'
+      }))`
+        display: block;
+      `
+      const StyledTableRow = styled(TableRow)`
+        background-color: transparent;
+        transition: all 0.5s;
+        &.edited {
+          background-color: rgb(237, 247, 237);
+        }
+      `
+      const EditableNumber = ({ value, onChange, onBlur }) => {
+        const [editing, setEditing] = useState(false)
+
+        return editing ? (
+          <input
+            type='number'
+            value={value}
+            onChange={onChange}
+            onBlur={evt => {
+              setEditing(false)
+              onBlur(evt)
+            }}
+          />
+        ) : (
+          <input
+            type='text'
+            value={currency.format(value)}
+            onFocus={() => setEditing(true)}
+            readOnly
+          />
+        )
+      }
+      const EditableText = ({ value, onChange, onBlur }) => {
+        return <input type='text' value={value} onChange={onChange} onBlur={onBlur} />
+      }
+      const EditableEnum = ({ value, onChange, onBlur, enums }) => {
+        return (
+          <select defaultValue={value} onChange={onChange} onBlur={onBlur}>
+            {enums.map(opt => (
+              <option key={opt}>{opt}</option>
+            ))}
+          </select>
+        )
+      }
+      const Summary = ({ data }) => {
+        const statuses = {}
+        const divisions = {}
+        const budgets = []
+        let totalBudget = 0
+
+        data.forEach(({ status, budget, division }) => {
+          totalBudget += budget
+          budgets.push(budget)
+
+          if (statuses[status]) {
+            statuses[status] = statuses[status] + 1
+          } else {
+            statuses[status] = 1
+          }
+
+          if (divisions[division]) {
+            divisions[division] = divisions[division] + 1
+          } else {
+            divisions[division] = 1
+          }
+        })
+
+        return (
+          <Flex direction='row'>
+            <Box flex='1'>
+              <dl>
+                <dt>Division</dt>
+                {Object.keys(divisions)
+                  .sort()
+                  .map(key => {
+                    return (
+                      <dd key={key}>
+                        {key} {Math.round((divisions[key] / data.length) * 100)}%
+                      </dd>
+                    )
+                  })}
+              </dl>
+            </Box>
+            <Box flex='1'>
+              <dl>
+                <dt>Budget</dt>
+                <dd>Max {currency.format(Math.max(...budgets))}</dd>
+                <dd>Min {currency.format(Math.min(...budgets))}</dd>
+                <dd>Total {currency.format(totalBudget)}</dd>
+              </dl>
+            </Box>
+            <Box flex='1'>
+              <dl>
+                <dt>Status</dt>
+                {Object.keys(statuses)
+                  .sort()
+                  .map(key => {
+                    return (
+                      <dd key={key}>
+                        {key} {Math.round((statuses[key] / data.length) * 100)}%
+                      </dd>
+                    )
+                  })}
+              </dl>
+            </Box>
+          </Flex>
+        )
+      }
+      const Actions = () => {
+        const Group = styled(Box)`
+          text-align: right;
+          button:last-child {
+            margin-left: 15px;
+          }
+        `
+
+        return (
+          <Group>
+            <Button variant='contained'>
+              Add Record <Icon>add</Icon>
+            </Button>
+            <Button variant='contained'>
+              Export Records <Icon>get_app</Icon>
+            </Button>
+          </Group>
+        )
+      }
+      const DateRangePicker = ({ name, onChange }) => {
+        const [start, setStart] = useState(null)
+        const [end, setEnd] = useState(null)
+        const startName = `datepicker_${name}_start`
+        const endName = `datepicker_${name}_end`
+        const resetOnEmptyField = evt => {
+          if (!evt.target.value) {
+            onChange(null)
+          }
+        }
+
+        useEffect(() => {
+          datepicker(`.${startName}`, {
+            onSelect: (instance, date) => {
+              setStart(date)
+            }
+          })
+          datepicker(`.${endName}`, {
+            onSelect: (instance, date) => {
+              setEnd(date)
+            }
+          })
+        }, [])
+
+        useEffect(() => {
+          if (start && end) {
+            if (dateFns.isBefore(start, end)) {
+              onChange({ start, end })
+            } else {
+              onChange(null)
+            }
+          }
+        }, [start, end])
+
+        return (
+          <div>
+            <FilterInput
+              placeholder='start'
+              className={startName}
+              onChange={resetOnEmptyField}
+            />
+            <FilterInput
+              placeholder='end'
+              className={endName}
+              onChange={resetOnEmptyField}
+            />
+          </div>
+        )
+      }
+      const Grid = ({ columns, rows, rowId, onChange }) => {
+        const [filters, setFilters] = useState({})
+        const [edited, setEdited] = useState(null)
+        const columnActions = useMemo(() => {
+          const actions = {}
+          const defaultFilter = (val, query) => {
+            return val
+              .toString()
+              .trim()
+              .toLowerCase()
+              .includes(query.trim().toLowerCase())
+          }
+          const defaultParser = val => val
+
+          columns.forEach(({ id, filter, parse }) => {
+            actions[id] = {
+              filter: filter || defaultFilter,
+              parse: parse || defaultParser
+            }
+          })
+
+          return actions
+        }, [columns])
+        const handleOnChangeFilter = _.debounce((key, value) => {
+          setEdited(null)
+
+          if (value) {
+            setFilters({ ...filters, [key]: value })
+          } else {
+            const { [key]: unused, ...withoutKey } = filters
+
+            setFilters(withoutKey)
+          }
+        }, 150)
+        const visibleRows = rows.filter(row => {
+          const filterKeys = Object.keys(filters)
+
+          if (filterKeys.length) {
+            return filterKeys.every(key =>
+              columnActions[key].filter(row[key], filters[key])
+            )
+          }
+
+          return true
+        })
+
+        return (
+          <TableContainer>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  {columns.map(({ label, id, type }) => (
+                    <TableCell key={id}>
+                      {label}
+                      {type === 'date' ? (
+                        <DateRangePicker
+                          name={id}
+                          onChange={value => {
+                            handleOnChangeFilter(id, value)
+                          }}
+                        />
+                      ) : (
+                        <FilterInput
+                          onChange={({ target: { value } }) => {
+                            handleOnChangeFilter(id, value)
+                          }}
+                        />
+                      )}
+                    </TableCell>
+                  ))}
+                  <TableCell />
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {visibleRows.map((row, idx) => (
+                  <StyledTableRow
+                    key={rowId(row)}
+                    className={row === edited ? 'edited' : null}
+                  >
+                    {columns.map(({ id, render, editable, enums, type }) => {
+                      const value =
+                        typeof render === 'function' ? render(row) : row[id]
+                      const getCellContent = () => {
+                        if (editable) {
+                          const props = {
+                            value,
+                            onBlur: evt => {
+                              setEdited(row)
+                              setTimeout(() => {
+                                setEdited(null)
+                              }, 1000)
+                            },
+                            onChange: evt =>
+                              onChange(
+                                columnActions[id].parse(evt.target.value),
+                                row,
+                                id
+                              )
+                          }
+
+                          if (Array.isArray(enums)) {
+                            return <EditableEnum enums={enums} {...props} />
+                          }
+
+                          return type === 'number' ? (
+                            <EditableNumber {...props} />
+                          ) : (
+                            <EditableText {...props} />
+                          )
+                        }
+
+                        return value
+                      }
+
+                      return (
+                        <TableCell key={`${id}-${idx}`}>{getCellContent()}</TableCell>
+                      )
+                    })}
+                    <TableCell>
+                      <Button>
+                        <Icon>open_in_new</Icon>
+                      </Button>
+                    </TableCell>
+                  </StyledTableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        )
+      }
+      const Dashboard = ({ data }) => {
+        const [rows, setRows] = useState(data)
+        const handleOnChangeValue = (value, editedRow, key) => {
+          setRows(
+            rows.map(row => (row === editedRow ? { ...row, [key]: value } : row))
+          )
+        }
+        const columns = [
+          {
+            id: 'title',
+            label: 'Title'
+          },
+          {
+            id: 'division',
+            label: 'Division'
+          },
+          {
+            id: 'project_owner',
+            label: 'Project Owner',
+            editable: true,
+            type: 'string'
+          },
+          {
+            id: 'budget',
+            label: 'Budget',
+            editable: true,
+            type: 'number',
+            filter: (val, query) => {
+              return val.toString().includes(query.replace(/\$|,/, ''))
+            },
+            parse: val => parseFloat(val)
+          },
+          {
+            id: 'status',
+            label: 'Status',
+            editable: true,
+            enums: ['new', 'archived', 'delivered', 'working']
+          },
+          {
+            id: 'created',
+            label: 'Created Date',
+            type: 'date',
+            filter: (val, range) => dateFns.isWithinRange(val, range.start, range.end)
+          },
+          {
+            id: 'modified',
+            label: 'Modified Date',
+            type: 'date',
+            filter: (val, range) => dateFns.isWithinRange(val, range.start, range.end)
+          }
+        ]
+        const rowId = row => `${row.title}-${row.division}`
+
+        return (
+          <Paper>
+            <h1>Project Dashboard</h1>
+            <Flex>
+              <Box>
+                <Actions />
+              </Box>
+              <Box my='30px'>
+                <Summary data={rows} />
+              </Box>
+              <Box>
+                <Grid
+                  columns={columns}
+                  rows={rows}
+                  rowId={rowId}
+                  onChange={handleOnChangeValue}
+                />
+              </Box>
+            </Flex>
+          </Paper>
+        )
+      }
+
+      ReactDOM.render(
+        <Dashboard data={JSON.parse(json)} />,
+        document.getElementById('dashboard')
+      )
+    </script>
+  </body>
+</html>
